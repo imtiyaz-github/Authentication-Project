@@ -12,10 +12,10 @@ const App = () => {
         <Route path="/" exact>
           <HomePage />
         </Route>
-        <Route path="/auth" exact>
+        <Route path="/auth" >
           <AuthForm />
         </Route>
-        <Route path="/profile" exact>
+        <Route path="/profile">
           <UserProfile />
         </Route>
       </Switch>

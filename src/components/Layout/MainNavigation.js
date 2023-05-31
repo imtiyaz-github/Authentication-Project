@@ -1,24 +1,35 @@
+import { useContext } from "react";
 import classes from "./MainNavigation.module.css";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
+import AuthContext from "../../store/auth-context";
 
 function MainNavigation() {
+  const authCtx = useContext(AuthContext);
+
+  const isLoggedIn = authCtx.isLoggedIn;
+
   return (
     <header className={classes.header}>
-      <NavLink to="/">
+      <Link to="/">
         <div className="classes.logo">React Auth</div>
-      </NavLink>
+      </Link>
       <nav>
         <ul>
-          <li>
-            <NavLink to="/auth">Auth</NavLink>
-          </li>
-
-          <li>
-            <NavLink to="/profile">Profile</NavLink>
-          </li>
-          <li>
-            <button>Logout</button>
-          </li>
+          {!isLoggedIn && (
+            <li>
+              <Link to="/auth">Login</Link>
+            </li>
+          )}
+          {isLoggedIn && (
+            <li>
+              <Link to="/profile">Profile</Link>
+            </li>
+          )}
+          {isLoggedIn && (
+            <li>
+              <button>Logout</button>
+            </li>
+          )}
         </ul>
       </nav>
     </header>
