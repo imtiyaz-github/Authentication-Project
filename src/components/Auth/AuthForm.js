@@ -19,44 +19,53 @@ const AuthForm = () => {
     const enteredPassword = passwordInputref.current.value;
 
     //optional : add validation
-    
-    setIsLoading(true); // y here means we r sending the request
-    if (isLogin) {
 
+    setIsLoading(true);
+    // y here means we r sending the request
+
+    let url;
+    if (isLogin) {
+      url =
+        "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCmioiJzxBqeS5chulGd1IjjiHb7Z50zsw";
     } else {
-      fetch(
-        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCmioiJzxBqeS5chulGd1IjjiHb7Z50zsw",
-        {
-          method: "POST",
-          body: JSON.stringify({
-            email: enteredEmail,
-            password: enteredPassword,
-            returnSecureToken: true,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      ).then((res) => {
+      url =
+        "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCmioiJzxBqeS5chulGd1IjjiHb7Z50zsw";
+    }
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        email: enteredEmail,
+        password: enteredPassword,
+        returnSecureToken: true,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        console.log(res);
         setIsLoading(false);
         if (res.ok) {
-          //......
+          return res.json();
         } else {
           return res.json().then((data) => {
-            
-            //show an error modal
-
             let errorMessage = "Aunthentication failed";
 
-            if (data && data.error && data.error.message) {
-              errorMessage = data.error.message;
-            }
-            console.log(data);
-            alert(errorMessage);
+            // if (data && data.error && data.error.message) {
+            //   errorMessage = data.error.message;
+            // }
+            // console.log(data);
+
+            throw new Error(errorMessage);
           });
         }
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        alert("Aunthentication failed");
       });
-    }
   };
 
   return (
