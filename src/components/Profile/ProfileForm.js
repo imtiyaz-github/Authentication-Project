@@ -3,12 +3,12 @@ import classes from "./Profile.module.css";
 import AuthContext from "../../store/auth-context";
 import { useHistory } from "react-router-dom";
 
-function ProfileForm() {
+const ProfileForm = () => {
   const history = useHistory();
 
-  const newPasswordInputRef = useRef();
+  const AuthCtx = useContext(AuthContext);
 
-  const authCtx = useContext(AuthContext);
+  const newPasswordInputRef = useRef();
 
   const submitHandler = (event) => {
     event.preventDefault();
@@ -16,16 +16,16 @@ function ProfileForm() {
     const enteredNewPassword = newPasswordInputRef.current.value;
 
     fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyCmioiJzxBqeS5chulGd1IjjiHb7Z50zsw",
+      "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyDmYfjgTEoOWmhidzEslpK8Nysan2MdZhg",
       {
         method: "POST",
         body: JSON.stringify({
-          idToken: authCtx.token,
+          idToken: AuthCtx.token,
           password: enteredNewPassword,
-          returnSecureToken: true,
+          returnSecureToken: false,
         }),
         headers: {
-          "Content-Type": "appplication/json",
+          "Context-Type": "application/json",
         },
       }
     ).then((res) => {
@@ -49,6 +49,6 @@ function ProfileForm() {
       </div>
     </form>
   );
-}
+};
 
 export default ProfileForm;
