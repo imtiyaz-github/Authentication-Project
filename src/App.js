@@ -21,7 +21,9 @@ const App = () => {
           </Route>
         )}
         <Route path="/profile">
+              
           {authCtx.isLoggedIn && <UserProfile />}
+        
           {!authCtx.isLoggedIn && <Redirect to="/auth" />}
         </Route>
       </Switch>
